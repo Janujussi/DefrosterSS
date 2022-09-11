@@ -40,7 +40,7 @@ void DefrosterSS_Transceiver_Init(RF24 radio);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_getMsg(Handle handle, RF24 radio);
+void DefrosterSS_getMsg(void* handle, RF24 radio);
 
 /**
  * @b Description
@@ -53,4 +53,4 @@ void DefrosterSS_getMsg(Handle handle, RF24 radio);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_sendMsg(Handle handle, RF24 radio);
+void DefrosterSS_sendMsg(void* handle, RF24 radio);

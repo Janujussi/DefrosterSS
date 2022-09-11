@@ -19,6 +19,10 @@
  **************************************************************************/
 
 typedef uint8_t Timer_Duration;
+typedef const uint8_t THERMOSTAT_PIN;
+typedef void* Control_Handle;
+typedef void* Config_Handle;
+typedef void* Safety_Handle;
 
 /**************************************************************************
  *************************** Enums ****************************************
@@ -129,14 +133,45 @@ typedef struct Power_Ctrl_t {
 /**
  * @b Decription
  * @n
- * 	DefrosterSS configuration.
+ * 	DefrosterSS configuration object.
  */
-typedef struct DefSS_CFG_t {
+typedef struct DefrosterSS_CFGObj_t {
+	Config_Handle cfgHandle;
 	Power_Ctrl powerCFG;
 	Temperature_Ctrl tempCFG;
 	Timer_Ctrl timeCFG;
-} DefSS_CFG;
+} DefrosterSS_CFGObj;
 
+/**
+ * @b Descriptoin
+ * @n
+ * 	Heating front end object.
+ */
+typedef struct DefrosterSS_HeatingFEObj_t {
+	Control_Handle heatingFECtrl;
+	Power_Ctrl power;
+	Timer_Ctrl timer;
+	Temperature_Ctrl temperature;
+} DefrosterSS_HeatingFEObj;
+
+/**
+ * @b Description
+ * @n
+ * 	Safety system parameters.
+ */
+typedef struct DefrosterSS_SafetyConfigParams_t {
+	THERMOSTAT_PIN THERMOSTAT;
+} DefrosterSS_SafetyConfigParams;
+
+/**
+ * @b Descriptoin
+ * @n
+ * 	Defroster SW safety setup.
+ */
+typedef struct DefrosterSS_SafetyMeasureObj_t {
+	Safety_Handle safetyHandle;
+	DefrosterSS_SafetyConfigParams safetyParams;
+} DefrosterSS_SafetyMeasureObj;
 
 /**
  * @b Decription
@@ -144,8 +179,9 @@ typedef struct DefSS_CFG_t {
  * 	Global handle struct
  */
 typedef struct DefrosterSS_t {
-	DefSS_CFG cfg;
-	Error_List error;
+	DefrosterSS_HeatingFEObj heatingFEObj;
+	DefrosterSS_CFGObj configurationObj;
+	DefrosterSS_SafetyMeasureObj safetyMeasureObj;
 } DefrosterSS;
 
 #endif

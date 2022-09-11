@@ -24,7 +24,7 @@
  * @retval
  * 	Temperature.
  */
-uint8_t DefrosterSS_checkTemp(Handle handle);
+uint8_t DefrosterSS_checkTemp(void* handle);
 
 /**
  * @b Description

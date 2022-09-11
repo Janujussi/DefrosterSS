@@ -32,7 +32,7 @@ uint8_t DefrosterSS_System_Init();
  * @retval
  * 	SUCCESS or FAIL.
  */
-uint8_t DefrosterSS_System_Configuration(DefrosterSS handle);
+uint8_t DefrosterSS_System_Configuration(void* handle);
 
 /**
  * @b Description
@@ -42,4 +42,4 @@ uint8_t DefrosterSS_System_Configuration(DefrosterSS handle);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_Init_Parameters(DefrosterSS handle);
+void DefrosterSS_Init_Parameters(void* handle);

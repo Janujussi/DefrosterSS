@@ -24,7 +24,7 @@
  * @retval
  * 	ON or OFF.
  */
-uint8_t DefrosterSS_checkState(DefrosterSS handle);
+uint8_t DefrosterSS_checkState(void* handle);
 
 /**
  * @b Description
@@ -36,4 +36,4 @@ uint8_t DefrosterSS_checkState(DefrosterSS handle);
  * @retval
  * 	Mode enum.
  */
-uint8_t DefrosterSS_checkMode(DefrosterSS handle);
+uint8_t DefrosterSS_checkMode(void* handle);
