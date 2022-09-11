@@ -24,7 +24,7 @@
  * @b Decription
  * @n
  *  Setup nRF24L01.
- * 
+ *
  * @param[in] radio Transceiver unit.
  */
 void DefrosterSS_Transceiver_Init(RF24 radio);

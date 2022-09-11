@@ -1,9 +1,8 @@
 /**
  * FILE: main.cpp
- * 
+ *
  * @brief Main file for running defroster sub-system.
- */ 
-
+ */
 
 /**************************************************************************
  *************************** Include Files ********************************
@@ -13,6 +12,7 @@
 #include "DefrosterSS.h"
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
+#include "DefrosterSS_System.h"
 #include "DefrosterSS_Temperature.h"
 #include "DefrosterSS_Transceiver.h"
 
@@ -25,17 +25,18 @@
 #include <Arduino.h>
 
 /**************************************************************************
- *************************** Definitions *****************************
+ *************************** Definitions **********************************
  **************************************************************************/
 
 /* Radio Pins */
-#define CE_PIN 7
-#define CSN_PIN 8
+const uint8_t CE_PIN = 7;
+const uint8_t CSN_PIN = 8;
 
-/* Heaating Front End Pins */
-#define FAN 9
-#define HEATER 10
-#define THERMOSTAT 11
+/* Heating Front End Pins */
+const uint8_t FAN = 9;
+const uint8_t HEATER = 10;
+const uint8_t THERMOSTAT = 11;
+
 
 /**************************************************************************
  *************************** Global Variables *****************************
@@ -51,7 +52,10 @@ RF24 radio(CE_PIN, CSN_PIN);
 char* radioMSG;
 
 void setup() {
-  DefrosterSS_Transceiver_Init(radio);
+	DefrosterSS_Init_Parameters(DefSSGHandle);
+	DefrosterSS_System_Init();
+	DefrosterSS_System_Configuration(DefSSGHandle);
+	DefrosterSS_Transceiver_Init(radio);
 }
 
 void loop() {

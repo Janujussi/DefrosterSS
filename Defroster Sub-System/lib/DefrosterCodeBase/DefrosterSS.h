@@ -3,6 +3,10 @@
  * @brief Data structures for defroster sub-system.
 */
 
+#ifndef DEFROSTERSS_H
+#define DEFROSTERSS_H
+
+
 /**************************************************************************
  *************************** Include Files ********************************
  **************************************************************************/
@@ -17,29 +21,81 @@
 typedef uint8_t Timer_Duration;
 
 /**************************************************************************
- *************************** Data Structs ******************************
+ *************************** Enums ****************************************
  **************************************************************************/
 
 /**
  * @b Decription
  * @n
- * 	Global handle struct
+ * 	Power mode/state.
  */
-typedef struct DefrosterSS_t {
-	DefSS_CFG cfg;
-	Error_List error;
-} DefrosterSS;
+typedef enum Power_Mode_t {
+	POWER_ON,
+	POWER_OFF
+} Power_Mode;
 
 /**
  * @b Decription
  * @n
- * 	DefrosterSS configuration.
+ * 	Power configuration: where the power is being supplied to.
  */
-typedef struct DefSS_CFG_t {
-	Power_Ctrl powerCFG;
-	Temperature_Ctrl tempCFG;
-	Timer_Ctrl timeCFG;
-} DefSS_CFG;
+typedef enum Power_CFG_t {
+	POWER_DEFAULT,
+	POWER_FAN_ONLY
+} Power_CFG;
+
+/**
+ * @b Decription
+ * @n
+ * 	Temperature heat level.
+ */
+typedef enum Temperature_Mode_t {
+	TEMP_DEFAULT,
+	TEMP_LOW,
+	TEMP_MEDIUM,
+	TEMP_HIGH
+} Temperature_Mode;
+
+/**
+ * @b Decription
+ * @n
+ * 	Time mode: defualt or user selected.
+ */
+typedef enum Timer_Mode_t {
+	TIMER_DEFAULT,
+	TIMER_CUSTOM
+} Timer_Mode;
+
+/**
+ * @b Decription
+ * @n
+ * 	Error list.
+ */
+typedef enum Error_List_t {
+	TRANSMISSION_FAILURE_ERR,
+	MODE_CONTROL_ERR
+} Error_List;
+
+/**
+ * @b Decription
+ * @n
+ * 	Keychain messages.
+ */
+typedef enum Keychain_Message_t {
+	TURN_ON,
+	TURN_OFF,
+	TEMPERATURE_DEFAULT,
+	TEMPERATURE_LOW,
+	TEMPERATURE_MED,
+	TEMPERATURE_HIGH,
+	TIME_DEFAULT,
+	TIME_SCHEDULED
+} Keychain_Message;
+
+
+/**************************************************************************
+ *************************** Data Structs ******************************
+ **************************************************************************/
 
 /**
  * @b Decription
@@ -70,74 +126,26 @@ typedef struct Power_Ctrl_t {
 	Power_CFG powerCFG;
 } Power_Ctrl;
 
-/**************************************************************************
- *************************** Enums ****************************************
- **************************************************************************/
+/**
+ * @b Decription
+ * @n
+ * 	DefrosterSS configuration.
+ */
+typedef struct DefSS_CFG_t {
+	Power_Ctrl powerCFG;
+	Temperature_Ctrl tempCFG;
+	Timer_Ctrl timeCFG;
+} DefSS_CFG;
+
 
 /**
  * @b Decription
  * @n
- * 	Power mode/state.
+ * 	Global handle struct
  */
-typedef enum Power_Mode_t {
-	POWER_ON,
-	POWER_OFF
-} Power_Mode;
+typedef struct DefrosterSS_t {
+	DefSS_CFG cfg;
+	Error_List error;
+} DefrosterSS;
 
-/**
- * @b Decription
- * @n
- * 	Power configuration: where the power is being supplied to.
- */
-typedef enum Power_CFG_t {
-	DEFAULT,
-	FAN_ONLY
-} Power_CFG;
-
-/**
- * @b Decription
- * @n
- * 	Temperature heat level.
- */
-typedef enum Temperature_Mode_t {
-	DEFAULT,
-	LOW,
-	MEDIUM,
-	HIGH
-} Temperature_Mode;
-
-/**
- * @b Decription
- * @n
- * 	Time mode: defualt or user selected.
- */
-typedef enum Timer_Mode_t {
-	DEFAULT,
-	CUSTOM
-} Timer_Mode;
-
-/**
- * @b Decription
- * @n
- * 	Error list.
- */
-typedef enum Error_List_t {
-	TRANSMISSION_FAILURE_ERR,
-	MODE_CONTROL_ERR
-} Error_List;
-
-/**
- * @b Decription
- * @n
- * 	Keychain messages.
- */
-typedef enum Keychain_Message_t {
-	TURN_ON,
-	TURN_OFF,
-	TEMPERATURE_DEFAULT,
-	TEMPERATURE_LOW,
-	TEMPERATURE_MED,
-	TEMPERATURE_HIGH,
-	TIME_DEFAULT,
-	TIME_SCHEDULED
-} Keychain_Message;
+#endif
