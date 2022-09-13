@@ -13,6 +13,7 @@
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
 #include "DefrosterSS_System.h"
+#include "DefrosterSS_System.c"
 #include "DefrosterSS_Temperature.h"
 #include "DefrosterSS_Transceiver.h"
 
@@ -28,6 +29,14 @@
  *************************** Definitions **********************************
  **************************************************************************/
 
+/* Analog Pin Definitions */
+// #define PIN_A0 14;
+// #define PIN_A1 15;
+// #define PIN_A2 16;
+// #define PIN_A3 17;
+// #define PIN_A4 18;
+// #define PIN_A5 19;
+
 /* Radio Pins */
 const uint8_t CE_PIN = 7;
 const uint8_t CSN_PIN = 8;
@@ -35,7 +44,7 @@ const uint8_t CSN_PIN = 8;
 /* Heating Front End Pins */
 const uint8_t FAN = 9;
 const uint8_t HEATER = 10;
-const uint8_t THERMOSTAT = 11;
+const uint8_t THERMOSTAT = PIN_A0;
 
 
 /**************************************************************************
@@ -43,7 +52,7 @@ const uint8_t THERMOSTAT = 11;
  **************************************************************************/
 
 /* Global variable which contains all information for defroster sub-system. */
-DefrosterSS DefSSGHandle;
+DefrosterSS DefSSGlobal;
 
 /* nRF24L01 */
 RF24 radio(CE_PIN, CSN_PIN);
@@ -52,12 +61,19 @@ RF24 radio(CE_PIN, CSN_PIN);
 char* radioMSG;
 
 void setup() {
-	DefrosterSS_Init_Parameters(DefSSGHandle);
-	DefrosterSS_System_Init();
-	DefrosterSS_System_Configuration(DefSSGHandle);
-	DefrosterSS_Transceiver_Init(radio);
+	Serial.begin(9600);
+
+	Control_Handle ctrlHandle = DefSSGlobal.configurationObj.cfgHandle;
+	DefrosterSS_PowerUp_Parameters(ctrlHandle);
+	// DefrosterSS_System_Init();
+	// DefrosterSS_System_Configuration();
+	// DefrosterSS_Transceiver_Init(radio);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+	delay(1000);
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerMode);
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerCFG);
+	Serial.println(DefSSGlobal.configurationObj.timeCFG.durationSeconds);
+	Serial.println();
 }

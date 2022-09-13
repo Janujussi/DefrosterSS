@@ -13,6 +13,7 @@
 
 /* General Include Files */
 #include <stdint.h>
+#include <Arduino.h>
 
 /**************************************************************************
  *************************** Type Definitions *****************************
@@ -23,6 +24,7 @@ typedef const uint8_t THERMOSTAT_PIN;
 typedef void* Control_Handle;
 typedef void* Config_Handle;
 typedef void* Safety_Handle;
+typedef void* HW_Handle;
 
 /**************************************************************************
  *************************** Enums ****************************************
@@ -117,7 +119,7 @@ typedef struct Temperature_Ctrl_t {
  */
 typedef struct Timer_Ctrl_t {
 	Timer_Mode timerMode;
-	Timer_Duration duration;
+	Timer_Duration durationSeconds;
 } Timer_Ctrl;
 
 /**
@@ -155,23 +157,21 @@ typedef struct DefrosterSS_HeatingFEObj_t {
 } DefrosterSS_HeatingFEObj;
 
 /**
- * @b Description
- * @n
- * 	Safety system parameters.
- */
-typedef struct DefrosterSS_SafetyConfigParams_t {
-	THERMOSTAT_PIN THERMOSTAT;
-} DefrosterSS_SafetyConfigParams;
-
-/**
  * @b Descriptoin
  * @n
  * 	Defroster SW safety setup.
  */
 typedef struct DefrosterSS_SafetyMeasureObj_t {
 	Safety_Handle safetyHandle;
-	DefrosterSS_SafetyConfigParams safetyParams;
+	uint8_t THERMOSTAT_PIN;
 } DefrosterSS_SafetyMeasureObj;
+
+typedef struct DefrosterSS_HWObj_t {
+	HW_Handle hwHandle;
+	uint8_t FAN_PIN;
+	uint8_t HEATER_PIN;
+	DefrosterSS_SafetyMeasureObj safetyMeasureObj;
+} DefrosterSS_HWObj;
 
 /**
  * @b Decription
@@ -181,7 +181,7 @@ typedef struct DefrosterSS_SafetyMeasureObj_t {
 typedef struct DefrosterSS_t {
 	DefrosterSS_HeatingFEObj heatingFEObj;
 	DefrosterSS_CFGObj configurationObj;
-	DefrosterSS_SafetyMeasureObj safetyMeasureObj;
+	DefrosterSS_HWObj HWObj;
 } DefrosterSS;
 
 #endif
