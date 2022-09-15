@@ -58,7 +58,7 @@ uint8_t DefrosterSS_System_Init_Params(void* handle);
  * @retval
  * 	SUCCESS or FAIL.
  */
-uint8_t DefrosterSS_System_Configuration(void* handle);
+uint8_t DefrosterSS_System_Configuration(DefrosterSS_CFGObj* handle);
 
 /**
  * @b Description
@@ -70,6 +70,6 @@ uint8_t DefrosterSS_System_Configuration(void* handle);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_PowerUp_Parameters(void* handle);
+void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* handle);
 
 #endif

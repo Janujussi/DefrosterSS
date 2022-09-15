@@ -63,11 +63,11 @@ char* radioMSG;
 void setup() {
 	Serial.begin(9600);
 
-	Control_Handle ctrlHandle = DefSSGlobal.configurationObj.cfgHandle;
-	DefrosterSS_PowerUp_Parameters(ctrlHandle);
-	// DefrosterSS_System_Init();
-	// DefrosterSS_System_Configuration();
-	// DefrosterSS_Transceiver_Init(radio);
+	DefrosterSS_PowerUp_Parameters(&DefSSGlobal.configurationObj);
+	DefrosterSS_System_Init_HW(&DefSSGlobal.HWObj, FAN, HEATER, THERMOSTAT);
+	DefrosterSS_System_Init();
+	DefrosterSS_System_Configuration();
+	DefrosterSS_Transceiver_Init(radio);
 }
 
 void loop() {
