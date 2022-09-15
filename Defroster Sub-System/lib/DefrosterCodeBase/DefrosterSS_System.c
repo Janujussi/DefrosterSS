@@ -8,7 +8,7 @@
  *************************** Include Files ********************************
  **************************************************************************/
 
-/* Header Include Files */
+/* DefrosterSS Include Files */
 #include "DefrosterSS_System.h"
 
 /**************************************************************************
@@ -85,8 +85,9 @@ uint8_t DefrosterSS_System_Init_Params(DefrosterSS_CFGObj* CFGObj, DefrosterSS_H
 		digitalWrite(HWObj.HEATER_PIN, LOW);
 	}
 
+	/* Initialize timer settings */
 	if (timeCFG.timerMode == TIMER_CUSTOM) {
-		
+//---------------------------------------
 	}
 }
 
