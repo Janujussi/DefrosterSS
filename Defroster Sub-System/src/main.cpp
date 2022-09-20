@@ -13,9 +13,11 @@
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_System.c"
-#include "DefrosterSS_Temperature.h"
+#include "DefrosterSS_System.cpp"
 #include "DefrosterSS_Transceiver.h"
+#include "DefrosterSS_Transceiver.cpp"
+#include "DefrosterSS_Timer.h"
+#include "DefrosterSS_Timer.c"
 
 /* Peripheral Include Files */
 #include <SPI.h>
@@ -28,24 +30,19 @@
 /**************************************************************************
  *************************** Definitions **********************************
  **************************************************************************/
-
-/* Analog Pin Definitions */
-// #define PIN_A0 14;
-// #define PIN_A1 15;
-// #define PIN_A2 16;
-// #define PIN_A3 17;
-// #define PIN_A4 18;
-// #define PIN_A5 19;
+uint8_t getPowerDuration();
 
 /* Radio Pins */
 const uint8_t CE_PIN = 7;
 const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
-const uint8_t FAN = 9;
-const uint8_t HEATER = 10;
+const uint8_t FAN = 5;
+const uint8_t HEATER = 6;
 const uint8_t THERMOSTAT = PIN_A0;
 
+static uint16_t radioTick = 0;
+static uint16_t powerTick = 0;
 
 /**************************************************************************
  *************************** Global Variables *****************************
@@ -63,17 +60,34 @@ char* radioMSG;
 void setup() {
 	Serial.begin(9600);
 
+	DefrosterSS_Timer_SystemTimerConfiguration();
 	DefrosterSS_PowerUp_Parameters(&DefSSGlobal.configurationObj);
 	DefrosterSS_System_Init_HW(&DefSSGlobal.HWObj, FAN, HEATER, THERMOSTAT);
-	DefrosterSS_System_Init();
-	DefrosterSS_System_Configuration();
+	DefrosterSS_System_Init_Params(DefSSGlobal.configurationObj, DefSSGlobal.HWObj);
 	DefrosterSS_Transceiver_Init(radio);
 }
 
 void loop() {
-	delay(1000);
-	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerMode);
-	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerCFG);
-	Serial.println(DefSSGlobal.configurationObj.timeCFG.durationSeconds);
-	Serial.println();
+	if (radioTick >= 5) {
+		if (radio.available()) {
+			DefrosterSS_getMsg(&DefSSGlobal, radio);
+		}
+		radioTick = 0;
+	}
+
+	if (powerTick >= getPowerDuration()) {
+		DefrosterSS_fanPowerOff(FAN);
+		DefrosterSS_heatPowerOff(HEATER);
+		powerTick = 0;
+	}
+}
+
+ISR(TIMER1_COMPA_vect) {
+	TCNT1 = 0;	// Timer value reset
+	radioTick++;
+	powerTick++;
+}
+
+uint8_t getPowerDuration() {
+	return DefSSGlobal.configurationObj.timeCFG.durationSeconds;
 }

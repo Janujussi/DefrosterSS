@@ -1,7 +1,10 @@
-/** FILE: DefrosterSS_Power.h
+/** FILE: DefrosterSS_Timer.h
  *
  * @brief Timer functions for defroster sub-system.
 */
+
+#ifndef DEFROSTERSS_TIMER_H
+#define DEFROSTERSS_TIMER_H
 
 /**************************************************************************
  *************************** Include Files ********************************
@@ -13,6 +16,8 @@
 /**
  * @b Description
  * @n
- *  Configure timer used for timer object.
+ *  Configure timer used to count 1 second ticks.
  */
-void DefrosterSS_ConfigureTimer(Timer_Duration durationSeconds);
+void DefrosterSS_Timer_SystemTimerConfiguration();
+
+#endif

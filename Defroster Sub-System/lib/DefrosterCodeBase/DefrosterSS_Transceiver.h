@@ -4,6 +4,9 @@
  * @brief Contains all transceiver functions of the defroster sub-system.
 */
 
+#ifndef DEFROSTERSS_TRANSCEIVER_H
+#define DEFROSTERSS_TRANSCEIVER_H
+
 /**************************************************************************
  *************************** Include Files ********************************
  **************************************************************************/
@@ -40,7 +43,7 @@ void DefrosterSS_Transceiver_Init(RF24 radio);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_getMsg(void* handle, RF24 radio);
+void DefrosterSS_getMsg(DefrosterSS* handle, RF24 radio);
 
 /**
  * @b Description
@@ -53,4 +56,6 @@ void DefrosterSS_getMsg(void* handle, RF24 radio);
  * @retval
  * 	Non applicable.
  */
-void DefrosterSS_sendMsg(void* handle, RF24 radio);
+void DefrosterSS_sendMsg(DefrosterSS handle, RF24 radio);
+
+#endif

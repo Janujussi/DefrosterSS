@@ -27,8 +27,8 @@
  * @retval
  * 	SUCCESS or FAIL.
  */
-uint8_t DefrosterSS_System_Init_HW(
-	void* handle,
+void DefrosterSS_System_Init_HW(
+	DefrosterSS_HWObj* HWObj,
 	const uint8_t fan,
 	const uint8_t heater,
 	const uint8_t thermostat
@@ -46,7 +46,7 @@ uint8_t DefrosterSS_System_Init_HW(
  * @retval
  * 	SUCCESS or FAIL.
  */
-uint8_t DefrosterSS_System_Init_Params(void* handle);
+void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj HWObj);
 
 /**
  * @b Description
@@ -58,7 +58,7 @@ uint8_t DefrosterSS_System_Init_Params(void* handle);
  * @retval
  * 	SUCCESS or FAIL.
  */
-uint8_t DefrosterSS_System_Configuration(DefrosterSS_CFGObj* handle);
+void DefrosterSS_System_Configure(DefrosterSS_CFGObj* handle);
 
 /**
  * @b Description
