@@ -71,6 +71,8 @@ void loop() {
 	if (radioTick >= 5) {
 		if (radio.available()) {
 			DefrosterSS_getMsg(&DefSSGlobal, radio);
+			// DefrosterSS_SystemConfigure(&DefSSGlobal.configurationObj);
+			// DefrosterSS_System_Init_Params(DefSSGlobal.configurationObj, DefSSGlobal.HWObj);
 		}
 		radioTick = 0;
 	}

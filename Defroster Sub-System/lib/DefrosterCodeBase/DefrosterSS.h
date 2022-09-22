@@ -142,17 +142,6 @@ typedef struct DefrosterSS_CFGObj_t {
 /**
  * @b Descriptoin
  * @n
- * 	Heating front end object.
- */
-typedef struct DefrosterSS_HeatingFEObj_t {
-	Power_Ctrl power;
-	Timer_Ctrl timer;
-	Temperature_Ctrl temperature;
-} DefrosterSS_HeatingFEObj;
-
-/**
- * @b Descriptoin
- * @n
  * 	Defroster SW safety setup.
  */
 typedef struct DefrosterSS_SafetyMeasureObj_t {
@@ -171,7 +160,6 @@ typedef struct DefrosterSS_HWObj_t {
  * 	Global handle struct
  */
 typedef struct DefrosterSS_t {
-	DefrosterSS_HeatingFEObj heatingFEObj;
 	DefrosterSS_CFGObj configurationObj;
 	DefrosterSS_HWObj HWObj;
 } DefrosterSS;
