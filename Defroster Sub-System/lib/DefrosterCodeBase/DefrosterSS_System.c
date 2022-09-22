@@ -10,7 +10,7 @@
 
 /* DefrosterSS Include Files */
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_Power.cpp"
+#include "DefrosterSS_Power.c"
 
 /**************************************************************************
  *************************** Functions ************************************
@@ -55,7 +55,9 @@ void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj
 	}
 }
 
-void DefrosterSS_System_Configure(DefrosterSS_CFGObj* handle);
+void DefrosterSS_System_Configure(DefrosterSS_CFGObj* handle /*	, mode */) {
+
+}
 
 void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	Power_Ctrl* powerCFG = &CFGObj->powerCFG;

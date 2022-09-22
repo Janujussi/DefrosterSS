@@ -13,7 +13,7 @@
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_System.cpp"
+#include "DefrosterSS_System.c"
 #include "DefrosterSS_Transceiver.h"
 #include "DefrosterSS_Transceiver.cpp"
 #include "DefrosterSS_Timer.h"
