@@ -37,13 +37,12 @@ void DefrosterSS_Transceiver_Init(RF24 radio);
  * @n
  * 	Parse available radio message.
  *
- * @param[in] handle DefrosterSS handle.
  * @param[in] radio Transceiver unit.
  *
  * @retval
- * 	Non applicable.
+ * 	Pointer to message buffer.
  */
-void DefrosterSS_getMsg(DefrosterSS* handle, RF24 radio);
+byte* DefrosterSS_getMsg(RF24 radio);
 
 /**
  * @b Description

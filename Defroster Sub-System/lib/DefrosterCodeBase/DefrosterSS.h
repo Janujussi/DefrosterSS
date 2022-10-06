@@ -140,7 +140,7 @@ typedef struct DefrosterSS_CFGObj_t {
 } DefrosterSS_CFGObj;
 
 /**
- * @b Descriptoin
+ * @b Description
  * @n
  * 	Heating front end object.
  */
@@ -151,7 +151,7 @@ typedef struct DefrosterSS_HeatingFEObj_t {
 } DefrosterSS_HeatingFEObj;
 
 /**
- * @b Descriptoin
+ * @b Description
  * @n
  * 	Defroster SW safety setup.
  */

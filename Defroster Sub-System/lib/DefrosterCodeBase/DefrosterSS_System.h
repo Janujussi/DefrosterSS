@@ -54,11 +54,12 @@ void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj
  *  Configures defroster sub-system.
  *
  * @param[in] handle Configuration handle.
+ * @param[in] buffer Buffer of parameters from RF transceiver.
  *
  * @retval
  * 	SUCCESS or FAIL.
  */
-void DefrosterSS_System_Configure(DefrosterSS_CFGObj* handle);
+void DefrosterSS_System_Configure(DefrosterSS* handle, byte* buffer);
 
 /**
  * @b Description

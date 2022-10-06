@@ -36,9 +36,11 @@ void DefrosterSS_Transceiver_Init(RF24 radio) {
 	radio.startListening();
 }
 
-void DefrosterSS_getMsg(DefrosterSS* handle, RF24 radio) {
-	char text[32] = {0};
-	radio.read(&text, sizeof(text));
+byte* DefrosterSS_getMsg(RF24 radio) {
+	static byte* buffer = (byte*) calloc(5, sizeof(byte));
+	radio.read(&buffer, sizeof(buffer));
+
+	return buffer;
 }
 
 void DefrosterSS_sendMsg(DefrosterSS handle, RF24 radio) {

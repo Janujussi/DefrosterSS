@@ -49,13 +49,14 @@ static uint16_t powerTick = 0;
  **************************************************************************/
 
 /* Global variable which contains all information for defroster sub-system. */
-DefrosterSS DefSSGlobal;
+static DefrosterSS DefSSGlobal;
 
 /* nRF24L01 */
-RF24 radio(CE_PIN, CSN_PIN);
+static RF24 radio(CE_PIN, CSN_PIN);
 
-/* Message to keychain fob */
-char* radioMSG;
+/* Message to/from keychain fob */
+static byte* receiveMSG;
+static byte* sendMSG;
 
 void setup() {
 	Serial.begin(9600);
@@ -70,7 +71,8 @@ void setup() {
 void loop() {
 	if (radioTick >= 5) {
 		if (radio.available()) {
-			DefrosterSS_getMsg(&DefSSGlobal, radio);
+			receiveMSG = DefrosterSS_getMsg(radio);
+			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
 		}
 		radioTick = 0;
 	}
