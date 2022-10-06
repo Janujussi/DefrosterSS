@@ -55,8 +55,12 @@ void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj
 	}
 }
 
+<<<<<<< HEAD
 void DefrosterSS_System_Configure(DefrosterSS* handle, byte* buffer) {
 	uint16_t time = 0x0000;
+=======
+void DefrosterSS_System_Configure(DefrosterSS_CFGObj* handle) {
+>>>>>>> 69bcc67748930b9bb847a69ae099dccdb4499304
 
 	handle->configurationObj.powerCFG.powerMode = (Power_Mode) buffer[0];
 	handle->configurationObj.powerCFG.powerCFG = (Power_CFG) buffer[1];
@@ -85,6 +89,6 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-	timeCFG->durationSeconds = 15;	// 15 minutes
+	timeCFG->durationSeconds = 5;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }
