@@ -33,7 +33,7 @@
 uint8_t getPowerDuration();
 
 /* Radio Pins */
-const uint8_t CE_PIN = 7;
+const uint8_t CE_PIN = 9;
 const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
@@ -60,6 +60,13 @@ static byte* sendMSG;
 
 void setup() {
 	Serial.begin(9600);
+	// radio.begin();
+
+	// // Set listening address
+	// radio.openReadingPipe(0, 0x00001);
+
+	// // Set module as receiver
+	// radio.startListening();
 
 	DefrosterSS_Timer_SystemTimerConfiguration();
 	DefrosterSS_PowerUp_Parameters(&DefSSGlobal.configurationObj);
@@ -70,8 +77,15 @@ void setup() {
 
 void loop() {
 	if (radioTick >= 5) {
+		Serial.println("Checking for message");
 		if (radio.available()) {
+			Serial.println("Received message:");
 			receiveMSG = DefrosterSS_getMsg(radio);
+			for (int i = 0; i < 5; i++) {
+				Serial.println((int) receiveMSG[i]);
+			}
+			Serial.println();
+
 			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
 		}
 		radioTick = 0;

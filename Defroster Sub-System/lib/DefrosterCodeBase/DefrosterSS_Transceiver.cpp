@@ -20,7 +20,7 @@
  *************************** Definitions **********************************
  **************************************************************************/
 
-const byte address[6] = "00001";
+// const int address = 0x00001;
 
 /**************************************************************************
  *************************** Functions ************************************
@@ -30,15 +30,17 @@ void DefrosterSS_Transceiver_Init(RF24 radio) {
 	radio.begin();
 
 	// Set listening address
-	radio.openReadingPipe(0, address);
+	radio.openReadingPipe(0, 0x00001);
+
+	radio.setPALevel(RF24_PA_MIN);
 
 	// Set module as receiver
 	radio.startListening();
 }
 
 byte* DefrosterSS_getMsg(RF24 radio) {
-	static byte* buffer = (byte*) calloc(5, sizeof(byte));
-	radio.read(&buffer, sizeof(buffer));
+	static byte* buffer = (byte*) malloc(5 * sizeof(byte));
+	radio.read(buffer, 5);
 
 	return buffer;
 }
