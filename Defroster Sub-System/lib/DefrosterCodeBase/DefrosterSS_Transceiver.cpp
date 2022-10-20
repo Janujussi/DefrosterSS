@@ -26,7 +26,7 @@
  *************************** Functions ************************************
  **************************************************************************/
 
-void DefrosterSS_Transceiver_Init(RF24 radio) {
+void DefrosterSS_Transceiver_Init(RF24& radio) {
 	radio.begin();
 
 	// Set listening address

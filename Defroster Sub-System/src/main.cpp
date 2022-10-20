@@ -13,7 +13,7 @@
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_System.c"
+#include "DefrosterSS_System.cpp"
 #include "DefrosterSS_Transceiver.h"
 #include "DefrosterSS_Transceiver.cpp"
 #include "DefrosterSS_Timer.h"
@@ -38,7 +38,7 @@ const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
 const uint8_t FAN = 5;
-const uint8_t HEATER = 6;
+const uint8_t HEATER = 2;
 const uint8_t THERMOSTAT = PIN_A0;
 
 static uint16_t radioTick = 0;
@@ -57,6 +57,7 @@ static RF24 radio(CE_PIN, CSN_PIN);
 /* Message to/from keychain fob */
 static byte* receiveMSG;
 static byte* sendMSG;
+static byte offConfig[5] = {0x1, 0x0, 0x3, 0xF, 0x0};
 
 void setup() {
 	Serial.begin(9600);
@@ -78,6 +79,9 @@ void setup() {
 void loop() {
 	if (radioTick >= 5) {
 		Serial.println("Checking for message");
+		Serial.print("radio availability: ");
+		Serial.print(radio.available());
+		Serial.println();
 		if (radio.available()) {
 			Serial.println("Received message:");
 			receiveMSG = DefrosterSS_getMsg(radio);
@@ -87,14 +91,17 @@ void loop() {
 			Serial.println();
 
 			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
+			DefrosterSS_Transceiver_Init(radio);
 		}
 		radioTick = 0;
 	}
 
 	if (powerTick >= getPowerDuration()) {
+		// DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
 		DefrosterSS_fanPowerOff(FAN);
 		DefrosterSS_heatPowerOff(HEATER);
 		powerTick = 0;
+		DefSSGlobal.configurationObj.timeCFG.durationSeconds = 0;
 	}
 }
 
@@ -102,6 +109,15 @@ ISR(TIMER1_COMPA_vect) {
 	TCNT1 = 0;	// Timer value reset
 	radioTick++;
 	powerTick++;
+	Serial.print("Time left: ");
+	Serial.print(getPowerDuration() - powerTick);
+	Serial.println();
+	Serial.println("powerCFG: ");
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerCFG);
+	Serial.println("powerMode: ");
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerMode);
+	Serial.println("tempMode: ");
+	Serial.println(DefSSGlobal.configurationObj.tempCFG.tempMode);
 }
 
 uint8_t getPowerDuration() {

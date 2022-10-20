@@ -36,6 +36,7 @@ void DefrosterSS_System_Init_HW(
 }
 
 void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj HWObj) {
+	Serial.println("Initializing settings)");
 	Power_Ctrl powerCFG = CFGObj.powerCFG;
 	Temperature_Ctrl tempCFG = CFGObj.tempCFG;
 	Timer_Ctrl timeCFG = CFGObj.timeCFG;
@@ -44,19 +45,23 @@ void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj
 
 	/* Initialize power settings*/
 	if (powerCFG.powerMode == POWER_ON) {
-		DefrosterSS_fanPowerOn(FAN_PIN, tempCFG.tempMode);
+		DefrosterSS_fanPowerOn(FAN_PIN, TEMP_HIGH /*tempCFG.tempMode*/);
 
 		if (powerCFG.powerCFG == POWER_DEFAULT) {	// Fan & heating
-			DefrosterSS_heatPowerOn(HEATER_PIN, tempCFG.tempMode);
+			DefrosterSS_heatPowerOn(HEATER_PIN, TEMP_HIGH /*tempCFG.tempMode*/);
+		} else {
+			DefrosterSS_heatPowerOff(HEATER_PIN);
 		}
 	} else {	// Power off
 		DefrosterSS_fanPowerOff(FAN_PIN);
-		DefrosterSS_fanPowerOff(HEATER_PIN);
+		DefrosterSS_heatPowerOff(HEATER_PIN);
 	}
 }
 
 void DefrosterSS_System_Configure(DefrosterSS* handle, byte* buffer) {
 	uint16_t time = 0x0000;
+
+	Serial.println("Configuring settings.");
 
 	handle->configurationObj.powerCFG.powerMode = (Power_Mode) buffer[0];
 	handle->configurationObj.powerCFG.powerCFG = (Power_CFG) buffer[1];
@@ -85,6 +90,6 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-	timeCFG->durationSeconds = 5;	// 15 minutes
+	timeCFG->durationSeconds = 30;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }
