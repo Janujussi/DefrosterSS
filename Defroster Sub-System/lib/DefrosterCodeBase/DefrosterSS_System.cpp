@@ -10,7 +10,7 @@
 
 /* DefrosterSS Include Files */
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_Power.c"
+#include "DefrosterSS_Power.cpp"
 
 /**************************************************************************
  *************************** Functions ************************************
@@ -22,9 +22,9 @@ void DefrosterSS_System_Init_HW(
 	const uint8_t heater,
 	const uint8_t thermostat
 ) {
-	uint8_t* FAN_PIN = &HWObj->FAN_PIN;
-	uint8_t* HEATER_PIN = &HWObj->HEATER_PIN;
-	uint8_t* THERMOSTAT_PIN = &HWObj->safetyMeasureObj.THERMOSTAT_PIN;
+	uint8_t* FAN_PIN = &(HWObj->FAN_PIN);
+	uint8_t* HEATER_PIN = &(HWObj->HEATER_PIN);
+	uint8_t* THERMOSTAT_PIN = &(HWObj->safetyMeasureObj.THERMOSTAT_PIN);
 
 	/* Assign HW Pins */
 	*FAN_PIN = fan;
@@ -85,6 +85,6 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-	timeCFG->durationSeconds = 5;	// 15 minutes
+	timeCFG->durationSeconds = 15;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }

@@ -13,7 +13,7 @@
 #include "DefrosterSS_Checks.h"
 #include "DefrosterSS_Power.h"
 #include "DefrosterSS_System.h"
-#include "DefrosterSS_System.c"
+#include "DefrosterSS_System.cpp"
 #include "DefrosterSS_Transceiver.h"
 #include "DefrosterSS_Transceiver.cpp"
 #include "DefrosterSS_Timer.h"
@@ -38,7 +38,7 @@ const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
 const uint8_t FAN = 5;
-const uint8_t HEATER = 6;
+const uint8_t HEATER = 7;
 const uint8_t THERMOSTAT = PIN_A0;
 
 static uint16_t radioTick = 0;
@@ -76,24 +76,26 @@ void setup() {
 }
 
 void loop() {
-	if (radioTick >= 5) {
-		Serial.println("Checking for message");
-		if (radio.available()) {
-			Serial.println("Received message:");
-			receiveMSG = DefrosterSS_getMsg(radio);
-			for (int i = 0; i < 5; i++) {
-				Serial.println((int) receiveMSG[i]);
-			}
-			Serial.println();
+	// if (radioTick >= 5) {
+	// 	Serial.println("Checking for message");
+	// 	if (radio.available()) {
+	// 		Serial.println("Received message:");
+	// 		receiveMSG = DefrosterSS_getMsg(radio);
+	// 		for (int i = 0; i < 5; i++) {
+	// 			Serial.println((int) receiveMSG[i]);
+	// 		}
+	// 		Serial.println();
 
-			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
-		}
-		radioTick = 0;
-	}
+	// 		DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
+	// 	}
+	// 	radioTick = 0;
+	// }
 
 	if (powerTick >= getPowerDuration()) {
-		DefrosterSS_fanPowerOff(FAN);
+		// DefrosterSS_fanPowerOff(FAN);
 		DefrosterSS_heatPowerOff(HEATER);
+		// digitalWrite(6, LOW);
+		Serial.println("power turned off");
 		powerTick = 0;
 	}
 }
