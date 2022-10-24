@@ -30,7 +30,7 @@
  *
  * @param[in] radio Transceiver unit.
  */
-void DefrosterSS_Transceiver_Init(RF24 radio);
+void DefrosterSS_Transceiver_Init(RF24& radio);
 
 /**
  * @b Description

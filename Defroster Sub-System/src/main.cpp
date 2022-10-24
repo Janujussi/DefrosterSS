@@ -38,7 +38,11 @@ const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
 const uint8_t FAN = 5;
+<<<<<<< HEAD
 const uint8_t HEATER = 7;
+=======
+const uint8_t HEATER = 2;
+>>>>>>> 9f3b46d306b371885a954ac312f17544e74a0332
 const uint8_t THERMOSTAT = PIN_A0;
 
 static uint16_t radioTick = 0;
@@ -57,6 +61,7 @@ static RF24 radio(CE_PIN, CSN_PIN);
 /* Message to/from keychain fob */
 static byte* receiveMSG;
 static byte* sendMSG;
+static byte offConfig[5] = {0x1, 0x0, 0x3, 0xF, 0x0};
 
 void setup() {
 	Serial.begin(9600);
@@ -76,6 +81,7 @@ void setup() {
 }
 
 void loop() {
+<<<<<<< HEAD
 	// if (radioTick >= 5) {
 	// 	Serial.println("Checking for message");
 	// 	if (radio.available()) {
@@ -93,10 +99,35 @@ void loop() {
 
 	if (powerTick >= getPowerDuration()) {
 		// DefrosterSS_fanPowerOff(FAN);
+=======
+	if (radioTick >= 5) {
+		Serial.println("Checking for message");
+		Serial.print("radio availability: ");
+		Serial.print(radio.available());
+		Serial.println();
+		if (radio.available()) {
+			Serial.println("Received message:");
+			receiveMSG = DefrosterSS_getMsg(radio);
+			for (int i = 0; i < 5; i++) {
+				Serial.println((int) receiveMSG[i]);
+			}
+			Serial.println();
+
+			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
+			DefrosterSS_Transceiver_Init(radio);
+		}
+		radioTick = 0;
+	}
+
+	if (powerTick >= getPowerDuration()) {
+		// DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
+		DefrosterSS_fanPowerOff(FAN);
+>>>>>>> 9f3b46d306b371885a954ac312f17544e74a0332
 		DefrosterSS_heatPowerOff(HEATER);
 		// digitalWrite(6, LOW);
 		Serial.println("power turned off");
 		powerTick = 0;
+		DefSSGlobal.configurationObj.timeCFG.durationSeconds = 0;
 	}
 }
 
@@ -104,6 +135,15 @@ ISR(TIMER1_COMPA_vect) {
 	TCNT1 = 0;	// Timer value reset
 	radioTick++;
 	powerTick++;
+	Serial.print("Time left: ");
+	Serial.print(getPowerDuration() - powerTick);
+	Serial.println();
+	Serial.println("powerCFG: ");
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerCFG);
+	Serial.println("powerMode: ");
+	Serial.println(DefSSGlobal.configurationObj.powerCFG.powerMode);
+	Serial.println("tempMode: ");
+	Serial.println(DefSSGlobal.configurationObj.tempCFG.tempMode);
 }
 
 uint8_t getPowerDuration() {
