@@ -2,6 +2,15 @@ Updated: October 24, 2022
 
 # DefrosterSS
 
+## Table of Contents
+
+* [Directories to Note](#directories-to-note)
+    * [APIs](#apis)
+    * [Application Code](#application-code)
+* [API Descriptions](#api-descriptions)
+    * [DefrosterSS](#defrosterss)
+    * [DefrosterSS_System](#defrosterss_system)
+
 ## Directories to Note
 
 ### APIs
