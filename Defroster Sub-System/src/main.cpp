@@ -30,7 +30,7 @@
 /**************************************************************************
  *************************** Definitions **********************************
  **************************************************************************/
-uint8_t getPowerDuration();
+uint16_t getPowerDuration();
 
 /* Radio Pins */
 const uint8_t CE_PIN = 9;
@@ -38,15 +38,13 @@ const uint8_t CSN_PIN = 8;
 
 /* Heating Front End Pins */
 const uint8_t FAN = 5;
-<<<<<<< HEAD
 const uint8_t HEATER = 7;
-=======
-const uint8_t HEATER = 2;
->>>>>>> 9f3b46d306b371885a954ac312f17544e74a0332
 const uint8_t THERMOSTAT = PIN_A0;
+const uint8_t THERMISTOR_ENABLE = 4;
 
 static uint16_t radioTick = 0;
 static uint16_t powerTick = 0;
+static uint16_t tempTick = 0;
 
 /**************************************************************************
  *************************** Global Variables *****************************
@@ -75,13 +73,13 @@ void setup() {
 
 	DefrosterSS_Timer_SystemTimerConfiguration();
 	DefrosterSS_PowerUp_Parameters(&DefSSGlobal.configurationObj);
-	DefrosterSS_System_Init_HW(&DefSSGlobal.HWObj, FAN, HEATER, THERMOSTAT);
+	DefrosterSS_System_Init_HW(&DefSSGlobal.HWObj, FAN, HEATER, THERMOSTAT, THERMISTOR_ENABLE);
 	DefrosterSS_System_Init_Params(DefSSGlobal.configurationObj, DefSSGlobal.HWObj);
 	DefrosterSS_Transceiver_Init(radio);
+	pinMode(THERMISTOR_ENABLE, OUTPUT);
 }
 
 void loop() {
-<<<<<<< HEAD
 	// if (radioTick >= 5) {
 	// 	Serial.println("Checking for message");
 	// 	if (radio.available()) {
@@ -97,9 +95,6 @@ void loop() {
 	// 	radioTick = 0;
 	// }
 
-	if (powerTick >= getPowerDuration()) {
-		// DefrosterSS_fanPowerOff(FAN);
-=======
 	if (radioTick >= 5) {
 		Serial.println("Checking for message");
 		Serial.print("radio availability: ");
@@ -120,14 +115,18 @@ void loop() {
 	}
 
 	if (powerTick >= getPowerDuration()) {
-		// DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
+		DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
 		DefrosterSS_fanPowerOff(FAN);
->>>>>>> 9f3b46d306b371885a954ac312f17544e74a0332
 		DefrosterSS_heatPowerOff(HEATER);
 		// digitalWrite(6, LOW);
 		Serial.println("power turned off");
 		powerTick = 0;
-		DefSSGlobal.configurationObj.timeCFG.durationSeconds = 0;
+		DefSSGlobal.configurationObj.timeCFG.durationSeconds = 100000;
+	}
+
+	if (tempTick >= 10) {
+		uint16_t temperature = DefrosterSS_checkTemp(DefSSGlobal);
+		tempTick = 0;
 	}
 }
 
@@ -135,6 +134,7 @@ ISR(TIMER1_COMPA_vect) {
 	TCNT1 = 0;	// Timer value reset
 	radioTick++;
 	powerTick++;
+	tempTick++;
 	Serial.print("Time left: ");
 	Serial.print(getPowerDuration() - powerTick);
 	Serial.println();
@@ -146,6 +146,6 @@ ISR(TIMER1_COMPA_vect) {
 	Serial.println(DefSSGlobal.configurationObj.tempCFG.tempMode);
 }
 
-uint8_t getPowerDuration() {
+uint16_t getPowerDuration() {
 	return DefSSGlobal.configurationObj.timeCFG.durationSeconds;
 }

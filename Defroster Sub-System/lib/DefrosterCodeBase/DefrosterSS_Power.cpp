@@ -1,4 +1,3 @@
-
 /** FILE: DefrosterSS_Power.c
  *
  * @brief Implementation of DefrosterSS_Power.h.

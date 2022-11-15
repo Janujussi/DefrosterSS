@@ -31,7 +31,8 @@ void DefrosterSS_System_Init_HW(
 	DefrosterSS_HWObj* HWObj,
 	const uint8_t fan,
 	const uint8_t heater,
-	const uint8_t thermostat
+	const uint8_t thermostat,
+	const uint8_t thermistor_enable
 );
 
 /**

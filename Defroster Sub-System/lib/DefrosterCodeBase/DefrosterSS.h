@@ -19,7 +19,6 @@
  *************************** Type Definitions *****************************
  **************************************************************************/
 
-typedef uint16_t Timer_Duration;
 typedef const uint8_t THERMOSTAT_PIN;
 
 /**************************************************************************
@@ -115,7 +114,7 @@ typedef struct Temperature_Ctrl_t {
  */
 typedef struct Timer_Ctrl_t {
 	Timer_Mode timerMode;
-	Timer_Duration durationSeconds;
+	uint16_t durationSeconds;
 } Timer_Ctrl;
 
 /**
@@ -142,24 +141,11 @@ typedef struct DefrosterSS_CFGObj_t {
 /**
  * @b Description
  * @n
-<<<<<<< HEAD
- * 	Heating front end object.
- */
-typedef struct DefrosterSS_HeatingFEObj_t {
-	Power_Ctrl power;
-	Timer_Ctrl timer;
-	Temperature_Ctrl temperature;
-} DefrosterSS_HeatingFEObj;
-
-/**
- * @b Description
- * @n
-=======
->>>>>>> 69bcc67748930b9bb847a69ae099dccdb4499304
  * 	Defroster SW safety setup.
  */
 typedef struct DefrosterSS_SafetyMeasureObj_t {
 	uint8_t THERMOSTAT_PIN;
+	uint8_t THERMISTOR_ENABLE;
 } DefrosterSS_SafetyMeasureObj;
 
 typedef struct DefrosterSS_HWObj_t {

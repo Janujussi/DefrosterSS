@@ -3,6 +3,9 @@
  * @brief Contains all check functions of the defroster sub-system.
 */
 
+#ifndef DEFROSTERSS_CHECKS_H
+#define DEFROSTERSS_CHECKS_H
+
 /**************************************************************************
  *************************** Include Files ********************************
  **************************************************************************/
@@ -17,23 +20,13 @@
 /**
  * @b Description
  * @n
- * 	Checks what state the defroster should be in.
+ * 	Checks whether Defroster is too hot.
  *
  * @param[in] handle DefrosterSS handle.
  *
  * @retval
- * 	ON or OFF.
+ * 	Temperature.
  */
-uint8_t DefrosterSS_checkState(void* handle);
+uint16_t DefrosterSS_checkTemp(DefrosterSS handle);
 
-/**
- * @b Description
- * @n
- * 	Checks what mode the defroster should be in.
- *
- * @param[in] handle DefrosterSS handle.
- *
- * @retval
- * 	Mode enum.
- */
-uint8_t DefrosterSS_checkMode(void* handle);
+#endif

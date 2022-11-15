@@ -20,26 +20,28 @@ void DefrosterSS_System_Init_HW(
 	DefrosterSS_HWObj* HWObj,
 	const uint8_t fan,
 	const uint8_t heater,
-	const uint8_t thermostat
+	const uint8_t thermostat,
+	const uint8_t thermistor_enable
 ) {
 	uint8_t* FAN_PIN = &(HWObj->FAN_PIN);
 	uint8_t* HEATER_PIN = &(HWObj->HEATER_PIN);
 	uint8_t* THERMOSTAT_PIN = &(HWObj->safetyMeasureObj.THERMOSTAT_PIN);
+	uint8_t* THERMISTOR_ENABLE = &(HWObj->safetyMeasureObj.THERMISTOR_ENABLE);
 
 	/* Assign HW Pins */
 	*FAN_PIN = fan;
 	*HEATER_PIN = heater;
 	*THERMOSTAT_PIN = thermostat;
+	*THERMISTOR_ENABLE = thermistor_enable;
 
 	pinMode(*FAN_PIN, OUTPUT);
 	pinMode(*HEATER_PIN, OUTPUT);
+	pinMode(*THERMISTOR_ENABLE, OUTPUT);
 }
 
 void DefrosterSS_System_Init_Params(DefrosterSS_CFGObj CFGObj, DefrosterSS_HWObj HWObj) {
 	Serial.println("Initializing settings)");
 	Power_Ctrl powerCFG = CFGObj.powerCFG;
-	Temperature_Ctrl tempCFG = CFGObj.tempCFG;
-	Timer_Ctrl timeCFG = CFGObj.timeCFG;
 	uint8_t FAN_PIN = HWObj.FAN_PIN;
 	uint8_t HEATER_PIN = HWObj.HEATER_PIN;
 
@@ -90,10 +92,6 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-<<<<<<< HEAD
-	timeCFG->durationSeconds = 15;	// 15 minutes
-=======
-	timeCFG->durationSeconds = 30;	// 15 minutes
->>>>>>> 9f3b46d306b371885a954ac312f17544e74a0332
+	timeCFG->durationSeconds = 300;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }
