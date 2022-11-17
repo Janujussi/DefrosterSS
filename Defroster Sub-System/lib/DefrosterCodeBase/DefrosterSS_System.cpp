@@ -92,6 +92,6 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-	timeCFG->durationSeconds = 300;	// 15 minutes
+	timeCFG->durationSeconds = 20;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }

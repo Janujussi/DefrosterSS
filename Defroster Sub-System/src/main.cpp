@@ -126,6 +126,19 @@ void loop() {
 
 	if (tempTick >= 10) {
 		uint16_t temperature = DefrosterSS_checkTemp(DefSSGlobal);
+		char buffer[3];
+		itoa(temperature, buffer, 10);
+
+		Serial.println("Temperature being sent:");
+		for (int i = 0; i < 3; i++) {
+			Serial.print(buffer[i]);
+		}
+		Serial.println();
+
+		radio.stopListening();
+		radio.openWritingPipe(0x00002);
+		radio.write(&buffer, sizeof(buffer));
+		radio.startListening();
 		tempTick = 0;
 	}
 }
