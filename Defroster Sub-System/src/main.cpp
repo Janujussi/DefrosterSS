@@ -118,7 +118,6 @@ void loop() {
 		DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
 		DefrosterSS_fanPowerOff(FAN);
 		DefrosterSS_heatPowerOff(HEATER);
-		// digitalWrite(6, LOW);
 		Serial.println("power turned off");
 		powerTick = 0;
 		DefSSGlobal.configurationObj.timeCFG.durationSeconds = 100000;
@@ -126,6 +125,14 @@ void loop() {
 
 	if (tempTick >= 10) {
 		uint16_t temperature = DefrosterSS_checkTemp(DefSSGlobal);
+
+		if (temperature > 80) {
+			DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
+			DefrosterSS_fanPowerOff(FAN);
+			DefrosterSS_heatPowerOff(HEATER);
+			Serial.println("temperature too hot, power turned off");
+		}
+
 		char buffer[3];
 		itoa(temperature, buffer, 10);
 
