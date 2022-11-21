@@ -133,13 +133,10 @@ void loop() {
 			Serial.println("temperature too hot, power turned off");
 		}
 
-		char buffer[3];
-		itoa(temperature, buffer, 10);
+		static byte buffer[] = {temperature};
 
 		Serial.println("Temperature being sent:");
-		for (int i = 0; i < 3; i++) {
-			Serial.print(buffer[i]);
-		}
+		Serial.print(buffer[0]);
 		Serial.println();
 
 		radio.stopListening();
