@@ -31,7 +31,7 @@ void DefrosterSS_fanPowerOn(int8_t fan, Temperature_Mode tempMode) {
 			break;
 		}
 		case TEMP_DEFAULT: {
-			digitalWrite(fan, HIGH);
+			digitalWrite(fan, LOW);
 			// analogWrite(fan, 255);
 			break;
 		}
@@ -56,7 +56,7 @@ void DefrosterSS_heatPowerOn(int8_t heat, Temperature_Mode tempMode) {
 			break;
 		}
 		case TEMP_DEFAULT: {
-			analogWrite(heat, 255);
+			digitalWrite(heat, HIGH);
 			break;
 		}
 	}

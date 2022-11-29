@@ -104,12 +104,13 @@ void loop() {
 			Serial.println("Received message:");
 			receiveMSG = DefrosterSS_getMsg(radio);
 			for (int i = 0; i < 5; i++) {
-				Serial.println((int) receiveMSG[i]);
+				Serial.println(receiveMSG[i]);
 			}
 			Serial.println();
 
 			DefrosterSS_System_Configure(&DefSSGlobal, receiveMSG);
 			DefrosterSS_Transceiver_Init(radio);
+			powerTick = 0;
 		}
 		radioTick = 0;
 	}
@@ -124,7 +125,7 @@ void loop() {
 	}
 
 	if (tempTick >= 10) {
-		uint16_t temperature = DefrosterSS_checkTemp(DefSSGlobal);
+		uint8_t temperature = DefrosterSS_checkTemp(DefSSGlobal);
 
 		if (temperature > 80) {
 			DefrosterSS_System_Configure(&DefSSGlobal, offConfig);
@@ -133,7 +134,8 @@ void loop() {
 			Serial.println("temperature too hot, power turned off");
 		}
 
-		static byte buffer[] = {temperature};
+		static byte buffer[1];
+		buffer[0] = {temperature};
 
 		Serial.println("Temperature being sent:");
 		Serial.print(buffer[0]);
@@ -141,7 +143,7 @@ void loop() {
 
 		radio.stopListening();
 		radio.openWritingPipe(0x00002);
-		radio.write(&buffer, sizeof(buffer));
+		radio.write(buffer, sizeof(buffer));
 		radio.startListening();
 		tempTick = 0;
 	}

@@ -68,9 +68,14 @@ void DefrosterSS_System_Configure(DefrosterSS* handle, byte* buffer) {
 	handle->configurationObj.powerCFG.powerMode = (Power_Mode) buffer[0];
 	handle->configurationObj.powerCFG.powerCFG = (Power_CFG) buffer[1];
 	handle->configurationObj.tempCFG.tempMode = (Temperature_Mode) buffer[2];
-	time = (buffer[3] << 4);
+	time = (buffer[3] << 8);
 	time |= buffer[4];
+	Serial.print("TIME IS: ");
+	Serial.print(time);
+	Serial.println();
 	handle->configurationObj.timeCFG.durationSeconds = time;
+	Serial.print(handle->configurationObj.timeCFG.durationSeconds);
+	Serial.println("^^^^^ handle time");
 
 	if (time == 0) {
 		handle->configurationObj.timeCFG.durationSeconds = 900;
@@ -85,13 +90,13 @@ void DefrosterSS_PowerUp_Parameters(DefrosterSS_CFGObj* CFGObj) {
 	Timer_Ctrl* timeCFG = &CFGObj->timeCFG;
 
 	/* Power Settings */
-	powerCFG->powerMode = POWER_ON;
+	powerCFG->powerMode = POWER_OFF;
 	powerCFG->powerCFG = POWER_DEFAULT;
 
 	/* Temperature Settings */
 	tempCFG->tempMode = TEMP_DEFAULT;
 
 	/* Timer Settings */
-	timeCFG->durationSeconds = 20;	// 15 minutes
+	timeCFG->durationSeconds = 0;	// 15 minutes
 	timeCFG->timerMode = TIMER_DEFAULT;
 }

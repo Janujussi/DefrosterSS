@@ -32,7 +32,7 @@ void DefrosterSS_Transceiver_Init(RF24& radio) {
 	// Set listening address
 	radio.openReadingPipe(0, 0x00001);
 
-	radio.setPALevel(RF24_PA_MIN);
+	radio.setPALevel(RF24_PA_MAX);
 
 	// Set module as receiver
 	radio.startListening();
